@@ -17,9 +17,11 @@ Rails.application.routes.draw do
 
   delete 'users' => 'users#logout'
 
-  patch 'users/:id/friend' => 'users#friend', as: "users_friend"
+  post 'users/friend/new' => 'users#friend'
 
-  delete 'users/:id/friend' => 'users#unfriend'
+  patch 'users/friend/:id' => 'users#friend', as: "users_friend"
+
+  delete 'users/friend/:id' => 'users#unfriend'
 
   get 'home' => 'games#home'
 

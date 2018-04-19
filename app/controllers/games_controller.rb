@@ -61,8 +61,11 @@ class GamesController < ApplicationController
             thumb = i.xpath("thumbnail")[0].content if i.xpath("thumbnail")[0]
             game = Game.find_by(bgg_id: bgg_id) if Game.exists?(bgg_id: bgg_id)
             user_rating = Rating.find_by(game: game, user: @user).rating if game && Rating.exists?(game: game, user: @user)
-            games_data += [{bgg_id: bgg_id, name: name, thumb: thumb, user_rating: user_rating}]
+            group_rating = game.group_rating(@group) if @group
+            games_data += [{bgg_id: bgg_id, name: name, thumb: thumb, user_rating: user_rating, group_rating: group_rating}]
         end
+        games_data.sort_by! {|g| g[:name]}
+        games_data.sort_by! {|g| g[:group_rating].to_f}.reverse! if @group
         games_data
     end
 end

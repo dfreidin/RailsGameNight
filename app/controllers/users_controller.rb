@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to home_path
     else
-      flash[:error] = @user.errors.full_messages
+      flash[:error] = ["Incorrect username or password"]
       redirect_to root_path
     end
   end
@@ -41,7 +41,11 @@ class UsersController < ApplicationController
   end
 
   def friend
-    @user.friends += [User.find(params[:id])]
+    if params.include?(:id)
+      @user.friends += [User.find(params[:id])]
+    elsif params.include?(:username)
+      @user.friends += [User.find_by(username: params[:username])]
+    end
     redirect_to home_path
   end
 
@@ -60,6 +64,10 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email)
   end
   def friend_auth
-    redirect_to home_path unless User.exists?(id: params[:id]) && session[:user_id] != params[:id]
+    if params.include?(:id)
+      redirect_to home_path unless User.exists?(id: params[:id]) && session[:user_id] != params[:id]
+    else
+      redirect_to home_path unless User.exists?(username: params[:username]) && @user.username != params[:username]
+    end
   end
 end

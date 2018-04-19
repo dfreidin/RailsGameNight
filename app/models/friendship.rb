@@ -5,6 +5,6 @@ class Friendship < ActiveRecord::Base
   validate :check_self_friendship
   private
   def check_self_friendship
-    errors.add(:friend, "can't be friends with self") if user == password
+    errors.add(:friend, "can't be friends with self") if user == friend
   end
 end

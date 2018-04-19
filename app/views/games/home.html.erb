@@ -23,7 +23,7 @@
         <p><a href="<%= groups_path %>" data-method="post" class="btn-floating waves-effect waves-light green darker-3"><i class="material-icons">add</i></a></p>
     </div>
     <div class="col s8">
-        <h3>Other Users:</h3>
+        <h3>Friends:</h3>
         <table>
             <thead>
                 <tr>
@@ -33,20 +33,19 @@
                 </tr>
             </thead>
             <tbody>
-                <% User.includes(:friends).all.each do |u| %>
-                    <% unless u == @user %>
+                <% User.includes(:friends).order(:username).each do |u| %>
+                    <% if u != @user && (@user.friends.include?(u) || u.friends.include?(@user)) %>
                         <tr>
                             <td><a href="<%= users_profile_path u.id %>"><%= u.username %></a></td>
                             <td><%= u.email %></td>
                             <td>
                                 <% if @user.friends?(u) %>
-                                    Friends! <a href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">delete</i></a>
+                                    Friends! <a class="btn-flat tooltipped" data-tooltip="Unfriend" href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">delete</i></a>
                                 <% elsif @user.friends.include?(u) %>
-                                    Request sent <a href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">cancel</i></a>
+                                    Request sent <a class="btn-flat tooltipped" data-tooltip="Cancel Request" href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">cancel</i></a>
                                 <% elsif u.friends.include?(@user) %>
-                                    <a href="<%= users_friend_path u.id %>" data-method="patch">Accept request?</a>
-                                <% else %>
-                                    <a href="<%= users_friend_path u.id %>" data-method="patch">Send request?</a>
+                                    Accept Request? <a class="btn-flat tooltipped" data-tooltip="Accept Request" href="<%= users_friend_path u.id %>" data-method="patch"><i class="material-icons">done</i></a>
+                                    <a class="btn-flat tooltipped" data-tooltip="Cancel Request" href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">close</i></a>
                                 <% end %>
                             </td>
                         </tr>
@@ -54,6 +53,14 @@
                 <% end %>
             </tbody>
         </table>
+        <form action="<%= users_friend_new_path %>" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <div class="input-field">
+                <input type="text" id="friend_autocomplete" name="username">
+                <label for="friend_autocomplete">Username</label>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light green darken-3">Send Friend Request</button>
+        </form>
     </div>
 </div>
 
