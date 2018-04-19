@@ -1,4 +1,4 @@
-<table>
+<table class="highlight centered">
     <thead>
         <tr>
             <th>Box Image</th>
@@ -26,7 +26,7 @@
                                 <input type="range" name="rating" min="1" max="10" <% if g.include?(:user_rating)%>value="<%= g[:user_rating] %>"<% end %>>
                             </div>
                         </form>
-                        <div class="form_result"></div>
+                        <div class="form_result"><% if g[:user_rating] == nil %>Not yet rated<% end %></div>
                     </td>
                     <td>
                         <button class="submit_rating btn-flat tooltipped" data-tooltip="Save this rating" form-target="#r_<%= g[:bgg_id] %>"><i class="material-icons">save</i></button>

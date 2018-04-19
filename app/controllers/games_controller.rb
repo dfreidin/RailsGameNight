@@ -29,6 +29,19 @@ class GamesController < ApplicationController
         render "search_table", layout: false
     end
 
+    def search_users
+        xml = open(@@bgg_url + "collection?own=1&username=" + params[:bgg_query])
+        while xml.status[0] == "202"
+            sleep(0.5)
+            xml = open(@@bgg_url + "collection?own=1&username=" + params[:bgg_query])
+        end
+        results = Nokogiri::XML(xml)
+        bgg_ids = []
+        results.xpath("//item").each {|i| bgg_ids += [i["objectid"]] if i["subtype"] == "boardgame" && !@user.games.exists?(bgg_id: i["objectid"])}
+        @games_data = get_games_data bgg_ids
+        render "search_table", layout: false
+    end
+
     def create
         params[:add_games].each  {|bgg_id| @user.games += [Game.find_or_create_by(bgg_id: bgg_id[0])]}
         redirect_to home_path

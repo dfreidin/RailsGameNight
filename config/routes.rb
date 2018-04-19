@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
   post 'games/search_games'
 
+  post 'games/search_users'
+
   post 'games/:bgg_id' => 'games#rate', as: 'game'
 
   patch 'games/collection' => 'games#create'

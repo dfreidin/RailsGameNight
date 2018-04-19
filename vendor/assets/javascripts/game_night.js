@@ -5,7 +5,7 @@ function setup() {
     $("select").material_select();
     $(".modal").modal();
     $(".tooltipped").tooltip();
-    $("#bgg_game_search").submit(function(e){
+    $(".bgg_search").submit(function(e){
         e.preventDefault();
         $.ajax({
             url: $(this).attr("action"),
