@@ -27,7 +27,7 @@
                 <td><a href="<%= users_profile_path u.id %>"><%= u.username %></a></td>
                 <td><%= u.email %></td>
                 <% if @group.owner == @user && u != @user %>
-                    <td><a href="<%= groups_members_delete_path @group.id, u.username %>" data-method="delete"><i class="material-icons">delete</i></a></td>
+                    <td><a class="btn-flat tooltipped" data-tooltip="Remove from group" href="<%= groups_members_delete_path @group.id, u.username %>" data-method="delete"><i class="material-icons">delete</i></a></td>
                 <% end %>
             </tr>
         <% end %>

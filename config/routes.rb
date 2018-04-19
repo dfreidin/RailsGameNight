@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   post 'games/search_games'
 
+  post 'games/:bgg_id' => 'games#rate', as: 'game'
+
   patch 'games/collection' => 'games#create'
 
   delete 'games/collection/:bgg_id' => 'games#delete', as: 'games_remove'

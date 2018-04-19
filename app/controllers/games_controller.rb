@@ -34,6 +34,16 @@ class GamesController < ApplicationController
         redirect_to home_path
     end
 
+    def rate
+        @game = Game.find_by(bgg_id: params[:bgg_id]) if Game.exists?(bgg_id: params[:bgg_id])
+        rating = Rating.find_or_create_by(user: @user, game: @game)
+        if rating && rating.update(rating: params[:rating])
+            render text: "Rating successfully updated"
+        else
+            render text: "Something went wrong..."
+        end
+    end
+
     def delete
         game = Game.find_by(bgg_id: params[:bgg_id]) if Game.exists?(bgg_id: params[:bgg_id])
         @user.games.delete(game) if game
@@ -49,7 +59,9 @@ class GamesController < ApplicationController
             bgg_id = i["id"]
             name = i.xpath("name")[0]["value"]
             thumb = i.xpath("thumbnail")[0].content if i.xpath("thumbnail")[0]
-            games_data += [{bgg_id: bgg_id, name: name, thumb: thumb}]
+            game = Game.find_by(bgg_id: bgg_id) if Game.exists?(bgg_id: bgg_id)
+            user_rating = Rating.find_by(game: game, user: @user).rating if game && Rating.exists?(game: game, user: @user)
+            games_data += [{bgg_id: bgg_id, name: name, thumb: thumb, user_rating: user_rating}]
         end
         games_data
     end
