@@ -1,0 +1,74 @@
+<h1>Welcome, <%= @user.username %></h1>
+<div class="row">
+    <p><a class="waves-effect waves-light btn modal-trigger green darken-3" href="#search_modal">Add Games</a></p>
+    <%= render "game_table" %>
+</div>
+<div class="row">
+    <div class="col s4">
+    <h3>My Groups:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @user.groups.each do |g| %>
+                    <tr>
+                        <td><a href="<%= groups_show_path g.id %>"><%= g.name %><a></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <p><a href="<%= groups_path %>" data-method="post" class="btn-floating waves-effect waves-light green darker-3"><i class="material-icons">add</i></a></p>
+    </div>
+    <div class="col s8">
+        <h3>Other Users:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Friends?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% User.includes(:friends).all.each do |u| %>
+                    <% unless u == @user %>
+                        <tr>
+                            <td><a href="<%= users_profile_path u.id %>"><%= u.username %></a></td>
+                            <td><%= u.email %></td>
+                            <td>
+                                <% if @user.friends?(u) %>
+                                    Friends! <a href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">delete</i></a>
+                                <% elsif @user.friends.include?(u) %>
+                                    Request sent <a href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">cancel</i></a>
+                                <% elsif u.friends.include?(@user) %>
+                                    <a href="<%= users_friend_path u.id %>" data-method="patch">Accept request?</a>
+                                <% else %>
+                                    <a href="<%= users_friend_path u.id %>" data-method="patch">Send request?</a>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="search_modal" class="modal">
+    <div class="modal-content">
+        <h4>Search BGG</h4>
+        <form id="bgg_game_search" action="/games/search_games" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="text" name="bgg_query">
+            <input type="submit" class="btn waves-effect waves-light green darken-3" name="search">
+        </form>
+        <div id="search_results">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="modal-action modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></button>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<form id="group_name_dropdown" class="dropdown-content" action="<%= groups_show_path @group.id %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <div class="input-field">
+        <input type="text" name="group[name]" value="<%= @group.name %>">
+    </div>
+    <input type="submit" value="Save" class="btn waves-effect waves-light green darker-3">
+</form>
+
+<h1><%= @group.name %></h1>
+<% if @group.owner == @user %>
+    <p><a href="#" class="btn waves-effect waves-light green darker-3 dropdown-trigger" data-activates="group_name_dropdown"><i class="material-icons">edit</i> Group Name</a></p>
+<% end %>
+<h3>Members:</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <% if @group.owner == @user %>
+                <th>Actions</th>
+            <% end %>
+        </tr>
+    </thead>
+    <tbody>
+        <% @group.members.order("username").each do |u| %>
+            <tr>
+                <td><a href="<%= users_profile_path u.id %>"><%= u.username %></a></td>
+                <td><%= u.email %></td>
+                <% if @group.owner == @user && u != @user %>
+                    <td><a href="<%= groups_members_delete_path @group.id, u.username %>" data-method="delete"><i class="material-icons">delete</i></a></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+<div class="row">
+    <form action="<%= groups_members_path @group.id %>" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="hidden" name="_method" value="patch">
+        <div class="input-field">
+            <select multiple name="new_members[]">
+                <option disabled selected>Add members</option>
+                <% User.includes(:friends).all.order(:username).each do |u| %>
+                    <% if @user.friends?(u) %>
+                        <option><%= u.username %>
+                    <% end %>
+                <% end %>
+            </select>
+        </div>
+        <input type="submit" value="Add to group" class="btn waves-effect waves-light green darker-3">
+    </form>
+</div>
+<div class="row">
+    <%= render "game_table" %>
+</div>

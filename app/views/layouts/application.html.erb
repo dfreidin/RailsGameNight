@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GameNight</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+  <body>
+    <ul id="groups_dropdown" class="dropdown-content">
+      <% if @user %>
+        <% @user.groups.each do |g| %>
+          <li><a href="<%= groups_show_path g.id%>"><%= g.name %></a></li>
+        <% end %>
+      <% end %>
+    </ul>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper green darken-3">
+          <i class="left brand-logo material-icons">casino</i>
+          <ul id="nav-mobile" class="right">
+            <li><a class="dropdown-trigger" href="#!" data-activates="groups_dropdown"><i class="material-icons">group</i></a></li>
+            <li><a href="<%= home_path %>"><i class="material-icons">home</i></a></li>
+            <li><a href="<%= users_edit_path %>"><i class="material-icons">edit</i></a></li>
+            <li><a href="<%= users_path %>" data-method="delete"><i class="material-icons">exit_to_app</i></a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="container">
+      <% if flash[:error] %>
+        <% flash[:error].each do |e| %>
+          <p class="red-text text-darken-3"><%= e %></p>
+        <% end %>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>

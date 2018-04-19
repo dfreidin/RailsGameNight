@@ -1,0 +1,24 @@
+<form action="<%= games_collection_path %>" method="post">
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+<input type="hidden" name="_method" value="patch">
+<table>
+    <thead>
+        <tr>
+            <th>Add</th>
+            <th>Box Image</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @games_data.each do |g| %>
+            <tr>
+                <td><input id="g_<%= g[:bgg_id] %>" type="checkbox" name="add_games[<%= g[:bgg_id] %>]" value="<%= g[:bgg_id] %>">
+                    <label for="g_<%= g[:bgg_id] %>"></label></td>
+                <td><img src="<%= g[:thumb] %>"></td>
+                <td><%= g[:name] %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+<input type="submit" value="Add Games" class="btn waves-effect waves-light green darken-3">
+</form>

@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col s6">
+        <h1>Register</h1>
+        <%= form_for :user, url: users_new_path do |f| %>
+            <div class="row">
+                <div class="input-field col">
+                    <%= label_tag :username %>
+                    <%= f.text_field :username %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col">
+                    <%= label_tag :password %>
+                    <%= f.password_field :password %></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col">
+                    <%= label_tag :password_confirmation %>
+                    <%= f.password_field :password_confirmation %></p>
+                </div>
+            </div>
+            <input type="submit" value="Register" class="btn waves-effect waves-light green darken-3">
+        <% end %>
+    </div>
+    <div class="col s6">
+        <h1>Login</h1>
+        <%= form_for :user, url: users_path, method: "patch" do |f| %>
+            <div class="row">
+                <div class="input-field col">
+                    <%= label_tag :username %>
+                    <%= f.text_field :username %></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col">
+                    <%= label_tag :password %>
+                    <%= f.password_field :password %></p>
+                </div>
+            </div>
+            <input type="submit" value="Login" class="btn waves-effect waves-light green darken-3">
+        <% end %>
+    </div>
+</div>

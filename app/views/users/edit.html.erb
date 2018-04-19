@@ -1,0 +1,16 @@
+<h1>Edit your information:</h1>
+<%= form_for @user, url: users_edit_path do |f| %>
+    <div class="row">
+        <div class="input-field col">
+            <%= label_tag :name %>
+            <%= f.text_field :name, class: "active" %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col">
+            <%= label_tag :email %>
+            <%= f.text_field :email, class: "active" %></p>
+        </div>
+    </div>
+    <input type="submit" value="Save" class="btn waves-effect waves-light green darken-3">
+<% end %>

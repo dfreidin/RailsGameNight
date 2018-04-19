@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <th>Box Image</th>
+            <th>Name</th>
+            <% if @home %>
+                <th>Actions</th>
+            <% end %>
+        </tr>
+    </thead>
+    <tbody>
+        <% @games.each do |g| %>
+            <tr>
+                <td><img src="<%= g[:thumb] %>"></td>
+                <td><%= g[:name] %></td>
+                <% if @home %>
+                    <td><a href="<%= games_remove_path g[:bgg_id] %>" data-method="delete"><i class="material-icons">delete</i></a></td>
+                <% end %>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
