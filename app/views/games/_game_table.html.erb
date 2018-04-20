@@ -1,12 +1,15 @@
-<table class="highlight centered">
+<table class="highlight centered responsive-table">
     <thead>
         <tr>
             <th>Box Image</th>
             <th>Name</th>
+            <th>Categories</th>
+            <th>Mechanics</th>
             <% if @group %>
                 <th>Group Rating</th>
+                <th>Owners</th>
             <% else %>
-                <th>Your Rating</th>
+                <th width="10%">Your Rating</th>
                 <th>Actions</th>
             <% end %>
         </tr>
@@ -16,8 +19,11 @@
             <tr>
                 <td><img src="<%= g[:thumb] %>"></td>
                 <td><%= g[:name] %></td>
+                <td><%= g[:categories] %></td>
+                <td><%= g[:mechanics] %></td>
                 <% if @group %>
                     <td><%= g[:group_rating] %></td>
+                    <td><%= g[:owners] %></td>
                 <% else %>
                     <td>
                         <form id="r_<%= g[:bgg_id] %>" action="<%= game_path g[:bgg_id] %>" method="post">
@@ -29,9 +35,9 @@
                         <div class="form_result"><% if g[:user_rating] == nil %>Not yet rated<% end %></div>
                     </td>
                     <td>
-                        <button class="submit_rating btn-flat tooltipped" data-tooltip="Save this rating" form-target="#r_<%= g[:bgg_id] %>"><i class="material-icons">save</i></button>
+                        <button class="submit_rating btn-flat waves-effect waves-green tooltipped" data-tooltip="Save this rating" form-target="#r_<%= g[:bgg_id] %>"><i class="material-icons">save</i></button>
                         <% if @home %>
-                            <a class="btn-flat tooltipped" href="<%= games_remove_path g[:bgg_id] %>" data-tooltip="Remove from your list" data-method="delete"><i class="material-icons">delete</i></a>
+                            <a class="btn-flat waves-effect waves-green tooltipped" href="<%= games_remove_path g[:bgg_id] %>" data-tooltip="Remove from your list" data-method="delete"><i class="material-icons">delete</i></a>
                         <% end %>
                     </td>
                 <% end %>

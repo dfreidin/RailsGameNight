@@ -1,4 +1,4 @@
-
+var loading_spinner = '<div class="preloader-wrapper big active"><div class="spinner-layer spinner-blue"><div class="circle-clipper left"><div class="circle></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>'
 
 function setup() {
     $(".dropdown-trigger").dropdown({coverTrigger: false, closeOnClick: false});
@@ -7,6 +7,7 @@ function setup() {
     $(".tooltipped").tooltip();
     $(".bgg_search").submit(function(e){
         e.preventDefault();
+        $("#search_results").html(loading_spinner);
         $.ajax({
             url: $(this).attr("action"),
             data: $(this).serialize(),
@@ -27,7 +28,17 @@ function setup() {
             }
         });
     });
+    $("#random_game_btn").click(function(e){
+        $.ajax({
+            url: $(this).attr("data-target"),
+            method: "get",
+            success: function(res){
+                $("#random_game").html(res);
+                $(".materialboxed").materialbox();
+            }
+        });
+    });
 }
 
-$(document).ready(setup);
+// $(document).ready(setup);
 $(document).on('turbolinks:load', setup);

@@ -10,8 +10,14 @@
 <% if @group.owner == @user %>
     <p><a href="#" class="btn waves-effect waves-light green darker-3 dropdown-trigger" data-activates="group_name_dropdown"><i class="material-icons">edit</i> Group Name</a></p>
 <% end %>
+<div class="row center">
+    <div class="col l4 m6 s12">
+        <div id="random_game"></div>
+        <button class="btn waves-effect waves-light green darker-3" id="random_game_btn" data-target="<%= random_game_path @group.id %>">Pick a random game! <i class="material-icons">casino</i></button>
+    </div>
+</div>
 <h3>Members:</h3>
-<table>
+<table class="highlight centered">
     <thead>
         <tr>
             <th>Username</th>
