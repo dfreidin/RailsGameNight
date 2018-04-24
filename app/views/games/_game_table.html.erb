@@ -1,3 +1,4 @@
+<%= render "game_table_pagination" %>
 <table class="highlight centered responsive-table">
     <thead>
         <tr>
@@ -5,6 +6,7 @@
             <th>Name</th>
             <th>Categories</th>
             <th>Mechanics</th>
+            <th>Player Count</th>
             <% if @group %>
                 <th>Group Rating</th>
                 <th>Owners</th>
@@ -21,6 +23,7 @@
                 <td><%= g[:name] %></td>
                 <td><%= g[:categories] %></td>
                 <td><%= g[:mechanics] %></td>
+                <td><%= g[:player_count] %></td>
                 <% if @group %>
                     <td><%= g[:group_rating] %></td>
                     <td><%= g[:owners] %></td>
@@ -45,3 +48,4 @@
         <% end %>
     </tbody>
 </table>
+<%= render "game_table_pagination" %>

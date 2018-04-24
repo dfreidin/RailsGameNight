@@ -6,18 +6,40 @@ class GamesController < ApplicationController
     @@bgg_url = "https://boardgamegeek.com/xmlapi2/"
 
     def home
+        if params.include?(:page)
+            @page = params[:page].to_i
+        else
+            @page = 1
+        end
+        offset = (@page-1)*10
         @home = true
-        @games = get_games_data @user.games.reduce([]) {|arr, g| arr += [g.bgg_id]}
+        @games = get_games_data @user.games.order(:name).limit(10).offset(offset).reduce([]) {|arr, g| arr += [g.bgg_id]}
+        @pages = @user.games.count / 10 + 1
     end
 
     def profile
         redirect_to home_path unless User.exists?(id: params[:id])
         @profile_user = User.find(params[:id])
-        @games = get_games_data @profile_user.games.reduce([]) {|arr, g| arr += [g.bgg_id]}
+        if params.include?(:page)
+            @page = params[:page].to_i
+        else
+            @page = 1
+        end
+        offset = (@page-1)*10
+        @games = get_games_data @profile_user.games.order(:name).limit(10).offset(offset).reduce([]) {|arr, g| arr += [g.bgg_id]}
+        @pages = @profile_user.games.count / 10 + 1
     end
 
     def group
-        @games = get_games_data @group.members.reduce([]) {|arr, m| arr += m.games}.uniq.map {|g| g.bgg_id}
+        if params.include?(:page)
+            @page = params[:page].to_i
+        else
+            @page = 1
+        end
+        offset = (@page-1)*10
+        all_group_games = @group.members.reduce([]) {|arr, m| arr += m.games}.uniq
+        @games = get_games_data all_group_games.sort_by {|g| g.group_rating(@group).to_f}.reverse.slice(offset,10).map {|g| g.bgg_id}
+        @pages = all_group_games.count / 10 + 1
     end
 
     def search_games
@@ -49,7 +71,10 @@ class GamesController < ApplicationController
     end
 
     def create
-        params[:add_games].each  {|bgg_id| @user.games += [Game.find_or_create_by(bgg_id: bgg_id[0])]}
+        # params[:add_games].each  {|bgg_id| @user.games += [Game.find_or_create_by(bgg_id: bgg_id[0])]}
+        games = get_games_data params[:add_games].to_a
+        # games.reduce(@user.games) {|arr, g| arr += [Game.find_or_create_by(bgg_id: g[:bgg_id], name: g[:name])]}
+        games.each {|g| @user.games += [Game.find_or_create_by(bgg_id: g[:bgg_id], name: g[:name])]}
         redirect_to home_path
     end
 
@@ -81,6 +106,7 @@ class GamesController < ApplicationController
             image = i.xpath("image")[0].content if i.xpath("image")[0]
             categories = i.xpath("link").map {|e| e["value"] if e["type"] == "boardgamecategory"}.compact.join(", ")
             mechanics = i.xpath("link").map {|e| e["value"] if e["type"] == "boardgamemechanic"}.compact.join(", ")
+            player_count = i.xpath("minplayers")[0]["value"] + "-" + i.xpath("maxplayers")[0]["value"]
             game = Game.find_by(bgg_id: bgg_id) if Game.exists?(bgg_id: bgg_id)
             owners = game.owned_users.includes(:memberships).where(memberships: {group: @group}).map {|u| u.username}.join(", ") if @group
             user_rating = Rating.find_by(game: game, user: @user).rating if game && Rating.exists?(game: game, user: @user)
@@ -92,6 +118,7 @@ class GamesController < ApplicationController
                 image: image,
                 categories: categories,
                 mechanics: mechanics,
+                player_count: player_count,
                 owners: owners,
                 user_rating: user_rating,
                 group_rating: group_rating

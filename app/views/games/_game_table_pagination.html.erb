@@ -1,0 +1,5 @@
+<ul class="pagination">
+    <% (1..@pages).each do |i| %>
+        <li class="<% if @page == i %>active green darken-3<% else %>waves-effect<% end %>"><a href="<%= request.path %>?page=<%= i %>"><%= i %></a></li>
+    <% end %>
+</ul>
