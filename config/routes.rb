@@ -27,11 +27,13 @@ Rails.application.routes.draw do
 
   get 'home' => 'games#home'
 
-  get 'users/:id' => 'games#profile', as: 'users_profile'
-
   get 'users/edit'
 
   patch 'users/edit' => 'users#update'
+
+  get 'users/:id' => 'games#profile', as: 'users_profile'
+
+  post 'users/edit/pw' => 'users#pw_change'
 
   post 'games/search_games'
 

@@ -35,6 +35,15 @@ class UsersController < ApplicationController
     redirect_to home_path
   end
 
+  def pw_change
+    if @user.authenticate(params[:user][:old_password])
+      flash[:error] = @user.errors.full_messages unless @user.update(pw_params)
+    else
+      flash[:error] = ["Incorrect password"]
+    end
+    redirect_to home_path
+  end
+
   def logout
     session[:user_id] = nil
     redirect_to root_path
@@ -62,6 +71,9 @@ class UsersController < ApplicationController
   end
   def edit_params
     params.require(:user).permit(:name, :email)
+  end
+  def pw_params
+    params.require(:user).permit(:password, :password_confirmation)
   end
   def friend_auth
     if params.include?(:id)

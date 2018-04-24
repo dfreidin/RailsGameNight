@@ -1,4 +1,4 @@
-<h1>Edit your information:</h1>
+<h3>Edit your information:</h3>
 <%= form_for @user, url: users_edit_path do |f| %>
     <div class="row">
         <div class="input-field col">
@@ -10,6 +10,29 @@
         <div class="input-field col">
             <%= label_tag :email %>
             <%= f.text_field :email, class: "active" %></p>
+        </div>
+    </div>
+    <input type="submit" value="Save" class="btn waves-effect waves-light green darken-3">
+<% end %>
+<hr>
+<h3>Update your password:</h3>
+<%= form_for :user, url: users_edit_pw_path do |f| %>
+    <div class="row">
+        <div class="input-field col">
+            <%= label_tag :old_password %>
+            <%= f.password_field :old_password %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col">
+            <%= label_tag :new_password %>
+            <%= f.password_field :password %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col">
+            <%= label_tag :password_confirmation %>
+            <%= f.password_field :password_confirmation %>
         </div>
     </div>
     <input type="submit" value="Save" class="btn waves-effect waves-light green darken-3">

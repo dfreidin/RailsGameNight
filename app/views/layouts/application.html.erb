@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GameNight</title>
+  <title>Game Knight</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -18,7 +18,8 @@
     <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper green darken-3">
-          <i class="material-icons brand-logo left">casino</i>
+          <%= image_tag 'logo.png', height: "80%" %>
+          <span class="brand-logo center">Game Knight</span>
           <ul id="nav-mobile" class="right">
             <li><a class="dropdown-trigger" href="#!" data-activates="groups_dropdown"><i class="material-icons">group</i></a></li>
             <li><a href="<%= home_path %>"><i class="material-icons">home</i></a></li>
