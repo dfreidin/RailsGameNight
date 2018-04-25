@@ -20,7 +20,7 @@
         <% @games.each do |g| %>
             <tr>
                 <td><img src="<%= g[:thumb] %>"></td>
-                <td><%= g[:name] %></td>
+                <td><a href="https://boardgamegeek.com/boardgame/<%= g[:bgg_id] %>" target="_blank"><%= g[:name] %></a></td>
                 <td><%= g[:categories] %></td>
                 <td><%= g[:mechanics] %></td>
                 <td><%= g[:player_count] %></td>

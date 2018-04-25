@@ -1,5 +1,7 @@
 <ul class="pagination">
+    <% if @page > 1 %><li><a href="<%= request.path %>?page=<%= @page-1 %>"><i class="material-icons">chevron_left</i></a></li><% end %>
     <% (1..@pages).each do |i| %>
         <li class="<% if @page == i %>active green darken-3<% else %>waves-effect<% end %>"><a href="<%= request.path %>?page=<%= i %>"><%= i %></a></li>
     <% end %>
+    <% if @page < @pages %><li><a href="<%= request.path %>?page=<%= @page+1 %>"><i class="material-icons">chevron_right</i></a></li><% end %>
 </ul>
