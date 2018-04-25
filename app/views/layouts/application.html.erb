@@ -35,6 +35,12 @@
           <p class="red-text text-darken-3"><%= e %></p>
         <% end %>
       <% end %>
+      <% if flash[:alert] %>
+        <p class="red-text text-darken-3"><%= flash[:alert] %></p>
+      <% end %>
+      <% if flash[:notice] %>
+        <p class="red-text text-darken-3"><%= flash[:notice] %></p>
+      <% end %>
       <%= yield %>
     </div>
   </body>

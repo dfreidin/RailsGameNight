@@ -67,8 +67,12 @@ class GamesController < ApplicationController
         min_rating = params[:min_rating] ? params[:min_rating].to_f : 0
         bgg_ids = @group.members.includes(:games).reduce([]) {|arr, m| arr += m.games}.uniq.delete_if {|g| g.group_rating(@group).to_f < min_rating}.map {|g| g.bgg_id}
         games = get_games_data [bgg_ids[rand(0..bgg_ids.length)]]
-        @game = games[0]
-        render "game_card", layout: false
+        @game = games[0] if games.length > 0
+        if @game
+            render "game_card", layout: false
+        else
+            render text: "<h5>No game found</h5>"
+        end
     end
 
     def create
