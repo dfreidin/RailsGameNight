@@ -5,6 +5,7 @@ function setup() {
     $("select").material_select();
     $(".modal").modal();
     $(".tooltipped").tooltip();
+    $(".collapsible").collapsible();
     $(".bgg_search").submit(function(e){
         e.preventDefault();
         $("#search_results").html(loading_spinner);

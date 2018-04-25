@@ -33,7 +33,8 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 gem 'materialize-sass'
-gem 'email_validator'
+gem 'devise'
+# gem 'email_validator'
 gem 'nokogiri'
 
 group :development, :test do

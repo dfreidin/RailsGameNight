@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   get 'groups/:id' => 'games#group', as: "groups_show"
 
   post 'groups/:id' => 'groups#update_name'
@@ -11,13 +12,14 @@ Rails.application.routes.draw do
 
   get 'groups/:id/random' => 'games#random_game', as: "random_game"
 
-  root 'users#index'
+  # root 'users#index'
+  root 'games#home'
 
-  post 'users/new' => 'users#create'
+  # post 'users/new' => 'users#create'
 
-  patch 'users' => 'users#login'
+  # patch 'users' => 'users#login'
 
-  delete 'users' => 'users#logout'
+  # delete 'users' => 'users#logout'
 
   post 'users/friend/new' => 'users#friend'
 
@@ -27,13 +29,13 @@ Rails.application.routes.draw do
 
   get 'home' => 'games#home'
 
-  get 'users/edit'
+  # get 'users/edit'
 
-  patch 'users/edit' => 'users#update'
+  # patch 'users/edit' => 'users#update'
 
   get 'users/:id' => 'games#profile', as: 'users_profile'
 
-  post 'users/edit/pw' => 'users#pw_change'
+  # post 'users/edit/pw' => 'users#pw_change'
 
   post 'games/search_games'
 

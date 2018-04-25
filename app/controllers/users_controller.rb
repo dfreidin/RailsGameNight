@@ -1,53 +1,54 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :create, :login]
   skip_before_action :set_current_user, only: [:index, :create, :login]
   before_action :friend_auth, only: [:friend, :unfriend]
 
-  def index
-  end
+  # def index
+  # end
 
-  def edit
-  end
+  # def edit
+  # end
 
-  def create
-    @user = User.new(reg_params)
-    if @user.save
-      session[:user_id] = @user.id
-      redirect_to home_path
-    else
-      flash[:error] = @user.errors.full_messages
-      redirect_to root_path
-    end
-  end
+  # def create
+  #   @user = User.new(reg_params)
+  #   if @user.save
+  #     session[:user_id] = @user.id
+  #     redirect_to home_path
+  #   else
+  #     flash[:error] = @user.errors.full_messages
+  #     redirect_to root_path
+  #   end
+  # end
 
-  def login
-    @user = User.find_by_username(params[:user][:username]).try(:authenticate, params[:user][:password])
-    if @user
-      session[:user_id] = @user.id
-      redirect_to home_path
-    else
-      flash[:error] = ["Incorrect username or password"]
-      redirect_to root_path
-    end
-  end
+  # def login
+  #   @user = User.find_by_username(params[:user][:username]).try(:authenticate, params[:user][:password])
+  #   if @user
+  #     session[:user_id] = @user.id
+  #     redirect_to home_path
+  #   else
+  #     flash[:error] = ["Incorrect username or password"]
+  #     redirect_to root_path
+  #   end
+  # end
 
-  def update
-    flash[:error] = @user.errors.full_messages unless @user.update(edit_params)
-    redirect_to home_path
-  end
+  # def update
+  #   flash[:error] = @user.errors.full_messages unless @user.update(edit_params)
+  #   redirect_to home_path
+  # end
 
-  def pw_change
-    if @user.authenticate(params[:user][:old_password])
-      flash[:error] = @user.errors.full_messages unless @user.update(pw_params)
-    else
-      flash[:error] = ["Incorrect password"]
-    end
-    redirect_to home_path
-  end
+  # def pw_change
+  #   if @user.authenticate(params[:user][:old_password])
+  #     flash[:error] = @user.errors.full_messages unless @user.update(pw_params)
+  #   else
+  #     flash[:error] = ["Incorrect password"]
+  #   end
+  #   redirect_to home_path
+  # end
 
-  def logout
-    session[:user_id] = nil
-    redirect_to root_path
-  end
+  # def logout
+  #   session[:user_id] = nil
+  #   redirect_to root_path
+  # end
 
   def friend
     if params.include?(:id)

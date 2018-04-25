@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
-  has_secure_password
-  has_many :owned_groups, class_name: "Group"
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+  has_many :owned_groups, class_name: "Group", dependent: :destroy, foreign_key: "owner_id"
   has_many :memberships
   has_many :groups, through: :memberships
   has_many :owners
@@ -11,7 +14,6 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships, source: :friend
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
-  validates :email, email: true, allow_nil: true
   def friends?(u)
     return self.friends.include?(u) && u.friends.include?(self)
   end
