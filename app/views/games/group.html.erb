@@ -13,7 +13,14 @@
 <div class="row center">
     <div class="col l4 m6 s12">
         <div id="random_game"></div>
-        <button class="btn waves-effect waves-light green darker-3" id="random_game_btn" data-target="<%= random_game_path @group.id %>">Pick a random game! <i class="material-icons">casino</i></button>
+        <form id="random_game_form" action="<%= random_game_path @group.id %>" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <div class="input_field">
+                <label for="random_min_rating">Minimum Group Rating:</label>
+                <input type="number" min="1" max="10" name="min_rating" id="random_min_rating">
+            </div>
+            <button type="submit" class="btn waves-effect waves-light green darker-3" id="random_game_btn"><i class="material-icons">casino</i> Pick a random game!</button>
+        </form>
     </div>
 </div>
 <h3>Members:</h3>

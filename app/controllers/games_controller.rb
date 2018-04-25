@@ -64,7 +64,8 @@ class GamesController < ApplicationController
     end
 
     def random_game
-        bgg_ids = @group.members.reduce([]) {|arr, m| arr += m.games}.uniq.map {|g| g.bgg_id}
+        min_rating = params[:min_rating] ? params[:min_rating].to_f : 0
+        bgg_ids = @group.members.includes(:games).reduce([]) {|arr, m| arr += m.games}.uniq.delete_if {|g| g.group_rating(@group).to_f < min_rating}.map {|g| g.bgg_id}
         games = get_games_data [bgg_ids[rand(0..bgg_ids.length)]]
         @game = games[0]
         render "game_card", layout: false

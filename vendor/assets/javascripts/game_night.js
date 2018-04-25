@@ -29,10 +29,12 @@ function setup() {
             }
         });
     });
-    $("#random_game_btn").click(function(e){
+    $("#random_game_form").submit(function(e){
+        e.preventDefault();
         $.ajax({
-            url: $(this).attr("data-target"),
-            method: "get",
+            url: $(this).attr("action"),
+            method: "post",
+            data: $(this).serialize(),
             success: function(res){
                 $("#random_game").html(res);
                 $(".materialboxed").materialbox();

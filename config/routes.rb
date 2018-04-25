@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   delete 'groups/:id/members/:username' => 'groups#remove_member', as: "groups_members_delete"
 
-  get 'groups/:id/random' => 'games#random_game', as: "random_game"
+  post 'groups/:id/random' => 'games#random_game', as: "random_game"
 
   # root 'users#index'
   root 'games#home'

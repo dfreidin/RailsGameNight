@@ -1,7 +1,7 @@
 <h1>Welcome, <%= @user.username %></h1>
 <ul class="collapsible popout">
     <li>
-        <div class="collapsible-header"><i class="material-icons">casino</i>My Games</div>
+        <div class="collapsible-header active"><i class="material-icons">casino</i>My Games</div>
         <div class="collapsible-body">
             <p><a class="waves-effect waves-light btn modal-trigger green darken-3" href="#search_modal">Add Games</a></p>
             <%= render "game_table" %>
