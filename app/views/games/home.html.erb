@@ -49,7 +49,7 @@
                         <% if u != @user && (@user.friends.include?(u) || u.friends.include?(@user)) %>
                             <tr>
                                 <td><a href="<%= users_profile_path u.id %>"><%= u.username %></a></td>
-                                <td><a href="<%= users_profile_path u.id %>"><%= u.email %></a></td>
+                                <td><% if u.friends.include?(@user) %><a href="<%= users_profile_path u.id %>"><%= u.email %></a><% end %></td>
                                 <td>
                                     <% if @user.friends?(u) %>
                                         Friends! <a class="btn-flat tooltipped" data-tooltip="Unfriend" href="<%= users_friend_path u.id %>" data-method="delete"><i class="material-icons">delete</i></a>

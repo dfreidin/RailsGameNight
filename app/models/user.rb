@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :owned_groups, class_name: "Group", dependent: :destroy, foreign_key: "owner_id"
   has_many :memberships
   has_many :groups, through: :memberships
-  has_many :owners
+  has_many :owners, dependent: :destroy
   has_many :games, through: :owners
   has_many :ratings
   has_many :rated_games, through: :ratings, source: :game

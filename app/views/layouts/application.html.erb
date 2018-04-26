@@ -18,13 +18,18 @@
     <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper green darken-3">
-          <%= image_tag 'logo.png', height: "80%" %>
+          <%= image_tag 'logo.png', height: "80%", class: "brand-logo left" %>
           <span class="brand-logo center">Game Knight</span>
           <ul id="nav-mobile" class="right">
-            <li><a class="dropdown-trigger" href="#!" data-activates="groups_dropdown"><i class="material-icons">group</i></a></li>
-            <li><a href="<%= root_path %>"><i class="material-icons">home</i></a></li>
-            <li><a href="<%= edit_user_registration_path %>"><i class="material-icons">edit</i></a></li>
-            <li><a href="<%= destroy_user_session_path %>" data-method="delete"><i class="material-icons">exit_to_app</i></a></li>
+            <% if user_signed_in? %>
+              <li><a class="dropdown-trigger tooltipped" data-tooltip="My Groups" href="#!" data-activates="groups_dropdown"><i class="material-icons">group</i></a></li>
+              <li><a class="tooltipped" data-tooltip="Home" href="<%= root_path %>"><i class="material-icons">home</i></a></li>
+              <li><a class="tooltipped" data-tooltip="Settings" href="<%= edit_user_registration_path %>"><i class="material-icons">settings</i></a></li>
+              <li><a class="tooltipped" data-tooltip="Logout" href="<%= destroy_user_session_path %>" data-method="delete"><i class="material-icons">close</i></a></li>
+            <% else %>
+              <li><a class="tooltipped" data-tooltip="Register" href="<%= new_user_registration_path %>"><i class="material-icons">add</i></a></li>
+              <li><a class="tooltipped" data-tooltip="Login" href="<%= new_user_session_path %>"><i class="material-icons">exit_to_app</i></a></li>
+            <% end %>
           </ul>
         </div>
       </nav>
@@ -32,11 +37,11 @@
     <div class="container">
       <% if flash[:error] %>
         <% flash[:error].each do |e| %>
-          <p class="red-text text-darken-3"><%= e %></p>
+          <p class="red-text text-darken-3"><i class="material-icons">error</i> <%= e %></p>
         <% end %>
       <% end %>
       <% if flash[:alert] %>
-        <p class="red-text text-darken-3"><%= flash[:alert] %></p>
+        <p class="red-text text-darken-3"><i class="material-icons">error</i> <%= flash[:alert] %></p>
       <% end %>
       <% if flash[:notice] %>
         <p class="green-text text-darken-3"><%= flash[:notice] %></p>

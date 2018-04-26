@@ -54,7 +54,7 @@
             <select multiple name="new_members[]">
                 <option disabled selected>Add members</option>
                 <% User.includes(:friends).all.order(:username).each do |u| %>
-                    <% if @user.friends?(u) %>
+                    <% if @user.friends?(u) and !@group.members.include?(u) %>
                         <option><%= u.username %>
                     <% end %>
                 <% end %>

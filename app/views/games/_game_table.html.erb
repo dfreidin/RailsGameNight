@@ -25,7 +25,7 @@
                 <td><%= g[:mechanics] %></td>
                 <td><%= g[:player_count] %></td>
                 <% if @group %>
-                    <td><%= g[:group_rating] %></td>
+                    <td><%= g[:group_rating].round(2) %></td>
                     <td><%= g[:owners] %></td>
                 <% else %>
                     <td>
