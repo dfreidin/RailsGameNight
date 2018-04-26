@@ -68,7 +68,7 @@
             <form action="<%= users_friend_new_path %>" method="post">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                 <div class="input-field">
-                    <input type="text" id="friend_autocomplete" name="username">
+                    <input type="text" id="friend_autocomplete" name="username" required>
                     <label for="friend_autocomplete">Username</label>
                 </div>
                 <button type="submit" class="btn waves-effect waves-light green darken-3">Send Friend Request</button>
@@ -87,14 +87,14 @@
         <div id="game_search_tab" class="col s12">
             <form class="bgg_search" action="/games/search_games" method="post">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <input type="text" name="bgg_query">
+                <input type="text" name="bgg_query" required>
                 <input type="submit" class="btn waves-effect waves-light green darken-3" name="search">
             </form>
         </div>
         <div id="user_search_tab" class="col s12">
             <form class="bgg_search" action="/games/search_users" method="post">
                 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                <input type="text" name="bgg_query">
+                <input type="text" name="bgg_query" required>
                 <input type="submit" class="btn waves-effect waves-light green darken-3" name="search">
             </form>
         </div>
