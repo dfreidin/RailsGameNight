@@ -18,7 +18,7 @@ class GamesController < ApplicationController
     end
 
     def profile
-        redirect_to home_path unless User.exists?(id: params[:id])
+        redirect_to root_path unless User.exists?(id: params[:id])
         @profile_user = User.find(params[:id])
         if params.include?(:page)
             @page = params[:page].to_i
@@ -80,7 +80,7 @@ class GamesController < ApplicationController
         games = get_games_data params[:add_games].to_a
         # games.reduce(@user.games) {|arr, g| arr += [Game.find_or_create_by(bgg_id: g[:bgg_id], name: g[:name])]}
         games.each {|g| @user.games += [Game.find_or_create_by(bgg_id: g[:bgg_id], name: g[:name])]}
-        redirect_to home_path
+        redirect_to root_path
     end
 
     def rate
@@ -96,7 +96,7 @@ class GamesController < ApplicationController
     def delete
         game = Game.find_by(bgg_id: params[:bgg_id]) if Game.exists?(bgg_id: params[:bgg_id])
         @user.games.delete(game) if game
-        redirect_to home_path
+        redirect_to root_path
     end
 
     private
@@ -134,7 +134,7 @@ class GamesController < ApplicationController
         games_data
     end
     def set_group
-        redirect_to home_path unless Group.exists?(id: params[:id])
+        redirect_to root_path unless Group.exists?(id: params[:id])
         @group = Group.find(params[:id])
     end
 end

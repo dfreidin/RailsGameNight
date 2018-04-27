@@ -56,14 +56,14 @@ class UsersController < ApplicationController
     elsif params.include?(:username)
       @user.friends += [User.find_by(username: params[:username])]
     end
-    redirect_to home_path
+    redirect_to root_path
   end
 
   def unfriend
     @friend = User.find(params[:id])
     @user.friends.delete(@friend) if @user.friends.include?(@friend)
     @friend.friends.delete(@user) if @friend.friends.include?(@user)
-    redirect_to home_path
+    redirect_to root_path
   end
 
   private

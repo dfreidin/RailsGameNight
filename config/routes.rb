@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
   get 'groups/:id' => 'games#group', as: "groups_show"
 
-  post 'groups/:id' => 'groups#update_name'
+  patch 'groups/:id' => 'groups#update_name'
+
+  delete 'groups/:id' => 'groups#destroy'
+
+  delete 'groups/:id/leave' => 'groups#leave', as: "groups_leave"
 
   post 'groups' => 'groups#create'
 

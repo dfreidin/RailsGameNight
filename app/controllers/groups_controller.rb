@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, except: [:create]
-  before_action :auth_group_owner, only: [:add_member, :remove_member, :update_name]
+  before_action :auth_group_owner, only: [:add_member, :remove_member, :update_name, :destroy]
 
   def create
     @group = Group.new
@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
     if @group.save
       redirect_to groups_show_path(@group.id)
     else
-      redirect_to home_path
+      redirect_to root_path
     end
   end
 
@@ -22,6 +22,16 @@ class GroupsController < ApplicationController
   def remove_member
     @group.members.delete(User.find_by(username: params[:username]))
     redirect_to groups_show_path(@group.id)
+  end
+
+  def leave
+    @group.members.delete(@user) unless @group.owner == @user
+    redirect_to root_path
+  end
+
+  def destroy
+    @group.destroy
+    redirect_to root_path
   end
 
   def update_name

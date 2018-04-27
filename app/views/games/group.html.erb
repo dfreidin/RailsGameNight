@@ -1,5 +1,6 @@
 <form id="group_name_dropdown" class="dropdown-content" action="<%= groups_show_path @group.id %>" method="post">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="patch">
     <div class="input-field">
         <input type="text" name="group[name]" value="<%= @group.name %>" required>
     </div>
@@ -9,6 +10,9 @@
 <h1><%= @group.name %></h1>
 <% if @group.owner == @user %>
     <p><a href="#" class="btn waves-effect waves-light green darker-3 dropdown-trigger" data-activates="group_name_dropdown"><i class="material-icons">edit</i> Group Name</a></p>
+    <p><%= button_to "Delete Group", groups_show_path(@group), data: { confirm: "Are you sure?" }, method: :delete, class: "btn waves-effect waves-light red darken-3" %></p>
+<% else %>
+    <p><%= button_to "Leave Group", groups_leave_path(@group), data: { confirm: "Are you sure?" }, method: :delete, class: "btn waves-effect waves-light red darken-3" %></p>
 <% end %>
 <div class="row center">
     <div class="col l4 m6 s12">
