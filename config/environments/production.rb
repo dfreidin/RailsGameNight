@@ -59,7 +59,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {host: 'freidin.net'}
   config.action_mailer.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    address:               ENV["SES_SERVER"],  \#\#\# you will get this piece of info when you register with aws ses.
+    address:               ENV["SES_SERVER"],
     domain:                "freidin.net",
     port:                  587,
     user_name:             ENV["SES_USERNAME"],
