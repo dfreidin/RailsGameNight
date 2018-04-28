@@ -8,9 +8,9 @@ class User < ActiveRecord::Base
   has_many :groups, through: :memberships
   has_many :owners, dependent: :destroy
   has_many :games, through: :owners
-  has_many :ratings
+  has_many :ratings, dependent: :destroy
   has_many :rated_games, through: :ratings, source: :game
-  has_many :friendships
+  has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships, source: :friend
   validates :username, presence: true, uniqueness: true
   validates :password, presence: true, on: :create
