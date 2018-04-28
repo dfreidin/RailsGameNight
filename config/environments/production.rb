@@ -56,6 +56,16 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "game_night_#{Rails.env}"
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = {host: 'freidin.net'}
+  config.action_mailer.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    address:               ENV["SES_SERVER"],  \#\#\# you will get this piece of info when you register with aws ses.
+    domain:                "freidin.net",
+    port:                  587,
+    user_name:             ENV["SES_USERNAME"],
+    password:              ENV["SES_PASSWORD"],
+    authentication:        :login
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
